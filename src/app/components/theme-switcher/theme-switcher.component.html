@@ -1,0 +1,13 @@
+<button mat-button [matMenuTriggerFor]="themeMenu">
+  <mat-icon>palette</mat-icon>
+  Theme
+</button>
+
+<mat-menu #themeMenu="matMenu">
+  <button mat-menu-item *ngFor="let theme of themes" (click)="setTheme(theme)">
+    <mat-icon *ngIf="(currentTheme$ | async)?.name === theme.name">
+      check
+    </mat-icon>
+    <span>{{ theme.name }}</span>
+  </button>
+</mat-menu>

@@ -1,0 +1,107 @@
+<mat-toolbar color="primary" class="app-bar">
+  <span class="title">Dictionary</span>
+
+  <div class="centered-container-chips">
+    @if (!isMobile()) {
+
+    <mat-chip-listbox>
+      <mat-chip
+        (click)="SelectedCat = 'All'"
+        [ngStyle]="{
+          'background-color': SelectedCat === 'All' ? '#f4faff' : '#c5dff8'
+        }"
+      >
+        All
+      </mat-chip>
+      @for (item of cats; track $index) {
+      <mat-chip
+        (click)="SelectedCat = item"
+        [ngStyle]="{
+          'background-color': SelectedCat === item ? '#f4faff' : '#c5dff8'
+        }"
+      >
+        {{ item.name_eng }}
+      </mat-chip>
+      }</mat-chip-listbox
+    ><app-theme-switcher></app-theme-switcher>}
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-nav-list class="nav-list">
+      <mat-list-item>
+        <mat-icon>home</mat-icon>
+        <span>All Words</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>star</mat-icon>
+        <span>Favorites</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>category</mat-icon>
+        <span>Categories</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="main-container">
+      <div class="centered-container">
+        <mat-list>
+          @if (isMobile()) {
+          <mat-form-field>
+            <mat-label>Select Category</mat-label>
+            <mat-select>
+              @for (item of cats; track $index) {
+              <mat-option
+                [value]="item.name_eng"
+                (click)="SelectedCat = item"
+                >{{ item.name_eng }}</mat-option
+              >
+              }
+            </mat-select>
+          </mat-form-field>
+          }
+          <input
+            style="
+              border-radius: 10px;
+              width: 200px;
+              height: 18px;
+              padding: 5px;
+              border: none;
+              background-color: #c5dff8;
+            "
+            placeholder="Search..."
+            class="centered-input"
+            [(ngModel)]="search"
+          />
+
+          @for (item of _words; track $index) {
+          <mat-list-item>
+            <span>{{ item.word_eng }}</span> <span>-</span>
+            <span
+              [ngStyle]="{
+                color:
+                  item.gender_rus === 'm'
+                    ? '#4cb9ed'
+                    : item.gender_rus === 'f'
+                    ? '#f78899'
+                    : item.gender_rus === 'n'
+                    ? '#72db72'
+                    : '#3e403e'
+              }"
+            >
+              {{ item.word_rus }}
+            </span>
+          </mat-list-item>
+          } <mat-divider></mat-divider>
+        </mat-list>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
